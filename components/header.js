@@ -1,23 +1,37 @@
 import React from "react";
 import Link from 'next/link';
 
+var style1 = {
+    
+    margin: '10px'
+};
+
+
+var style2 = {
+    
+    display: 'block'
+};
+
 class Header extends React.Component{
     render(){
         return(
-            <div>
+            <div style={style2}>
         <ul>            
-            <li>
+            <li style={style1}>
             <Link href="/">
                 <a>Home</a>
             </Link>
             </li>
-            <li>
+            <li style={style1}>
             <Link href="/about">
                 <a>About Page</a>
             </Link>
             </li>
         </ul>
+        <br></br>
+        <br></br>
         </div>
+        
         )
     }
 }

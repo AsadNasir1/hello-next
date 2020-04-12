@@ -5,15 +5,18 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-	"dev": "next",
-  "build": "next build",
-  "start": "next start"
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "mongodb": "^3.5.5",
+    "mongoose": "^5.9.7",
     "next": "^9.3.4",
+    "next-connect": "^0.6.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   }
