@@ -10,6 +10,13 @@ var style2 = {
     display: 'block'
 };
 
+async function DeleteUser(email)
+{
+    console.log(email);
+    await fetch('/api/deleteuser?email=' + email);
+    document.getElementById(email).remove();
+}
+
 export default class usersList extends React.Component{
     constructor(props){
         super (props);
@@ -24,9 +31,11 @@ export default class usersList extends React.Component{
                 return response.json();
             })
                 .then((data) => {
-                    this.setState({ data: data });
+                    this.setState({ data: data });                    
                 });
     };
+
+    
     
 
     render(){
@@ -44,11 +53,11 @@ export default class usersList extends React.Component{
                     </thead>
                     <tbody>
                         { this.state.data.map(function(user, i){
-                            return (<tr style={style1}>
+                            return (<tr id={user.email} style={style1}>
                                 <td style={style1}>{user._id}</td>
                                 <td style={style1}>{user.email}</td>
                                 <td style={style1}>{user.name}</td>
-                                <td><button>Delete</button></td>
+                                <td><button onClick={() => DeleteUser(user.email)}>Delete</button></td>
                             </tr>)
                         })}
                     </tbody>

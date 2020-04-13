@@ -1,31 +1,67 @@
 import { MongoClient } from 'mongodb';
 
+const client = new MongoClient('mongodb+srv://sa:Password2000@hello-next-vot56.mongodb.net/test?retryWrites=true&w=majority', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true, 
+    });
+
+var dbName = 'hello-next-db';
+
+async function readAll(collection, query)
+{
+    if (!client.isConnected()) await client.connect();    
+    const db = client.db(dbName);    
+    const col = db.collection(collection);    
+    var data = await col.find(query).toArray();    
+    client.close();
+    return data;
+}
+
+async function one(collection, query)
+{
+    if (!client.isConnected()) await client.connect();    
+    const db = client.db(dbName);    
+    const col = db.collection(collection);    
+    var data = await col.findOne(query);    
+    client.close();
+    return data;
+}
+
+async function deleteDoc(collection, query)
+{    
+    if (!client.isConnected()) await client.connect();
+    const db = client.db(dbName);    
+    const col = db.collection(collection);    
+    var res = await col.findOneAndDelete(query);
+    console.log(res);    
+    client.close();
+    //return data;
+}
+
 
 class ConnectMongo{
-    constructor() {        
-        this.client = new MongoClient('mongodb+srv://sa:Password2000@hello-next-vot56.mongodb.net/test?retryWrites=true&w=majority', {
-            useNewUrlParser: true,
-            useUnifiedTopology: true, 
-            });
+    
+    constructor(props){
+        
+        console.log(props);
+
+        if (props != null && props != undefined && props != '')
+        {
+            dbName = props;
+            console.log('New db name = ' + dbName);
+        }        
     }
 
-    isConnected(){
-        return (!this.client.isConnected());
+    readAll(collection, query) {
+        return readAll(collection, query);
     }
-    
-    getAll(collection, query) {
-        if (!this.client.isConnected()) {
-            var newClient = new MongoClient('mongodb+srv://sa:Password2000@hello-next-vot56.mongodb.net/test?retryWrites=true&w=majority', {
-                useNewUrlParser: true,
-                useUnifiedTopology: true, 
-                });
-            console.log('getAll is fired');
-            newClient.connect();
-            console.log(this.client.isConnected());
-            newClient.db('hello-next-db');
-        }
-        
-        return this.client.db.collection(collection).find(query).toArray();            
+
+    one(collection, query) {
+        return one(collection, query);
+    }
+
+    deleteDoc() {
+        return deleteDoc(collection, query);
     }
 
 }
